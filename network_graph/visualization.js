@@ -11,7 +11,6 @@ var svg = d3.select("#my_dataviz").append("svg")
   .append("g");
 
 // d3.json("/graphFile.json", function (data) { });
-
 // data is from graphFile.js
 
 var link = svg.selectAll("line").data(data.links).enter().append("line")
@@ -20,14 +19,21 @@ var link = svg.selectAll("line").data(data.links).enter().append("line")
   })
   .style("stroke", "#aaa")
 
-var node = svg.selectAll("circle").data(data.nodes).enter().append("circle")
+var node = svg.selectAll("circle").data(data.nodes).enter()
+  .append("a").attr("href", termLink)
+  .append("circle")
+  .attr("class", "termCircle")
   .attr("r", (d) => {
     return d.size
   })
   .style("fill", "#69b3a2")
 
-var label = svg.append("g").attr("class", "labels").selectAll("text").data(data.nodes).enter().append("text")
-  .attr("class", "label")
+var label = svg.selectAll("text").data(data.nodes).enter()
+  .append("a")
+  .attr("href", termLink)
+  .attr("class", "termLink")
+  .append("text")
+  .attr("class", "termTitle")
   .style("font-size", (d) => {
     return font_base + font_scale * (d.size / font_base)
   })
@@ -45,6 +51,7 @@ var simulation = d3.forceSimulation(data.nodes)
   .force("charge", d3.forceManyBody().strength(-10000))
   .force("center", d3.forceCenter(width / 2, height / 2))
   .on("end", ticked);
+
 
 function ticked() {
   link
@@ -75,5 +82,12 @@ function ticked() {
     })
     .attr("y", function (d) {
       return d.y + (d.size / font_base) / 2 + font_base / 2
-    })
+    });
+}
+
+//
+// Functions
+//
+function termLink(d) {
+  return "/term/" + d.id
 }

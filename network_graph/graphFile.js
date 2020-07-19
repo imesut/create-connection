@@ -18,6 +18,11 @@ data = {
             "name": "node4",
             "id": 4,
             "size": 30
+        },
+        {
+            "name": "node5",
+            "id": 5,
+            "size": 20
         }
     ],
     "links": [{
@@ -44,6 +49,16 @@ data = {
             "source": 3,
             "target": 1,
             "weight": 2
+        },
+        {
+            "source": 4,
+            "target": 5,
+            "weight": 3
+        },
+        {
+            "source": 1,
+            "target": 5,
+            "weight": 3
         }
     ]
 }
